@@ -152,5 +152,5 @@ lt=lang_translator()
 text="ওহে বিশ্ব"
 # text="Ciao mondo"
 # text="Olá Mundo"
-print(lt.translator(text))
-# print(lt.identify_lang(text))
+# print(lt.translator(text))
+print(lt.identify_lang(text))

@@ -1,14 +1,19 @@
 Extraction of text from images Done
 Summarize The Text Doing
+language detection
+translation
+Article Reading
+
+
+
+Spelling Correction
+
 
 
 **Named Entity Recognization
 **Rule Based Phrase Text Extraction and matching
 Email,Phone,Name etc details extratction
 Sentiment Analysis
-language detection
-translation
-Spelling Correction
 Rare Words
 Note Writing
 Remove Spaces
