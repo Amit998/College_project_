@@ -117,5 +117,5 @@ ar=Article_Reading(url)
 
 # ar.analize_text()
 # ar.analize_by_sentence()
-# ar.get_article_title()
-ar.save_article()
+ar.get_article_title()
+# ar.save_article()
