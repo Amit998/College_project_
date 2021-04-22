@@ -114,9 +114,7 @@ class lang_translator:
 
         
 
-       
-
-    
+     
     def translator(self,text):
 
         if (self.identify_lang(text) == self.lang_conv_to): return f"Langauge is already in {self.lang_conv_from}"
@@ -137,12 +135,8 @@ class lang_translator:
         return translated_lang
 
         
-
-    
     def test(self):
             pass
-
-
 
 
 # lt=lang_translator(lang_con_to="Italian")
