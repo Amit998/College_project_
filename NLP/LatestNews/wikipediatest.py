@@ -1,10 +1,10 @@
 import wikipedia
 import wikipediaapi
 
-# print(wikipedia.summary("Wikipedia"))
-# wiki_wiki = wikipediaapi.Wikipedia('en')
+print(wikipedia.summary("Elon Musk"))
+wiki_wiki = wikipediaapi.Wikipedia('en')
 
-# page_py = wiki_wiki.page('Python_(programming_language)')
+# page_py = wiki_wiki.page('Elon Musk)')
 
 # print(page_py)
 
@@ -19,10 +19,10 @@ import wikipediaapi
 # print(result)
 
 # importing the module
-import wikipedia
+# import wikipedia
   
-# setting language to hindi
-wikipedia.set_lang("beng")
+# # setting language to hindi
+# wikipedia.set_lang("beng")
   
-# printing the summary
-print(wikipedia.summary("India"))
+# # printing the summary
+# print(wikipedia.summary("India"))

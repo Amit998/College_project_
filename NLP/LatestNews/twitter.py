@@ -1,7 +1,5 @@
-
 import keys
 import sys,tweepy
-
 
 def twitter_auth():
     try:
@@ -18,7 +16,7 @@ def twitter_auth():
     # api=tweepy.API(auth,wait_on_rate_limit=True)
     return auth
 
-auth=twitter_auth()
+# auth=twitter_auth()
 # api.update_status("Look, I'm tweeting from #Python using twitter")
 
 def get_twitter_client():
@@ -30,10 +28,21 @@ def get_twitter_client():
 if __name__=="__main__":
     user=input("Enter Username:- ")
     client=get_twitter_client()
+    # client.update_status("Hello")
     # for status in tweepy.Cursor(client.home_timeline,screen_name=user).items(1):
     #     print(status.text)
 
-    for _ in  tweepy.Cursor(client.search,q=user,lang="en").items(1):
+    for _ in  tweepy.Cursor(client.search,q=user,lang="en").items(10):
         print(_.text)
+    # api=get_twitter_client()
+    # user = api.get_user("ElonMusk")
+    # print(user)
+    # print("User details:")
+    # print(user.name)
+    # print(user.description)
+    # print(user.location)
+    # api.update_profile(description="I like Python")
+    # for follower in user.followers():
+        # print(follower.name)
 
 

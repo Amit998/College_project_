@@ -108,7 +108,7 @@ class lang_translator:
         else:
             string_convo=f"{self.lang_to_code(self.identify_lang(text))}-{self.lang_to_code(self.lang_conv_to)}"
 
-            # print(string_convo)
+            print(string_convo)
             return string_convo
 
 
@@ -146,5 +146,5 @@ lt=lang_translator()
 text="ওহে বিশ্ব"
 # text="Ciao mondo"
 # text="Olá Mundo"
-# print(lt.translator(text))
-print(lt.identify_lang(text))
+print(lt.translator(text))
+# print(lt.identify_lang(text))

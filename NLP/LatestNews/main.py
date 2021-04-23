@@ -18,7 +18,6 @@ class Info_Getter_From_Google():
         timeout = 5
         try:
             request = requests.get(url, timeout=timeout)
-           
             return "200"
         except (requests.ConnectionError, requests.Timeout) as exception:
             return "NoInternet"
