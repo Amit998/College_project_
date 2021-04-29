@@ -13,20 +13,27 @@ def twitter_auth():
 
     auth=tweepy.OAuthHandler(consumer_key,consumer_secret_key)
     auth.set_access_token(access_token,access_token_secret)
-    # api=tweepy.API(auth,wait_on_rate_limit=True)
-    return auth
+    api=tweepy.API(auth,wait_on_rate_limit=True)
+    return auth,api
 
 # auth=twitter_auth()
 # api.update_status("Look, I'm tweeting from #Python using twitter")
 
 def get_twitter_client():
-    auth=twitter_auth()
+    auth,api=twitter_auth()
     client=tweepy.API(auth,wait_on_rate_limit=True)
-    return client
+    timeline=api.home_timeline()
+
+    for tweet in timeline:
+        print(tweet.user.name)
+        print(tweet.text)
+    # print(timeline.use)
+    # client=auth.get_user("MarcusMergulhao")
+    # return client
 
 
 if __name__=="__main__":
-    user=input("Enter Username:- ")
+    # user=input("Enter Username:- ")
     client=get_twitter_client()
     # client.update_status("Hello")
     # for status in tweepy.Cursor(client.home_timeline,screen_name=user).items(1):
@@ -34,6 +41,7 @@ if __name__=="__main__":
 
     for _ in  tweepy.Cursor(client.search,q=user,lang="en").items(10):
         print(_.text)
+        print("\n")
     # api=get_twitter_client()
     # user = api.get_user("ElonMusk")
     # print(user)
