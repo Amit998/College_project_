@@ -1,4 +1,3 @@
-API_KEY="AIzaSyA1pyVD1l9uHnFks-6ZAHlEy-6xANuEWeM"
 
 import requests
 from urllib.parse import urlencode

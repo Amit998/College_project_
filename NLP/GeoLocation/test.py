@@ -1,6 +1,14 @@
-# from geopy.distance import geodesic
-# newport_ri = (41.49008, -71.312796)
-# cleveland_oh = (41.499498, -81.695391)
-# print(geodesic(newport_ri, cleveland_oh).miles)
+from pprint import pprint
+import googlemaps
+import API_KEY
 
-# AIzaSyCzEcyS6HxfWX-pjEXpNs8zVdTC7fNR9FU
+api_key=API_KEY.API_KEY
+
+map_client=googlemaps.Client(api_key)
+# print(dir(map_client))
+
+work_place_address="1 market st, San Francisco , CA"
+
+response=map_client.geocode(work_place_address)
+pprint(response)
+print(response[0])

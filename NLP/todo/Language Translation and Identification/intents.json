@@ -1,0 +1,9 @@
+{
+    "intents":[
+        {
+            "tags":"translate",
+            "patterns":["I don't understand this language?","What language you are talking in?","I don't unserstand what you are saying","can you translate the language","i dont understand"],
+            "response":[]
+        }
+    ]
+}

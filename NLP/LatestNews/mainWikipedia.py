@@ -20,11 +20,12 @@ class WIKInfo:
     
     def wiki_page_data(self):
         page_data=wikipedia.page(self.suggested_search_name)
-        print(wikipedia.page(self.suggested_search_name).content)
+        # print(wikipedia.page(self.suggested_search_name).content)
         url=wikipedia.page(self.suggested_search_name).url
         refs=wikipedia.page(self.suggested_search_name).references
         page_title=wikipedia.page(self.suggested_search_name).title
         categories=wikipedia.page(self.suggested_search_name).categories
+        print(url)
     
     def location_search(self):
         geo_location=wikipedia.geosearch(37.787, -122.4)
@@ -36,12 +37,13 @@ class WIKInfo:
     def test(self):
         pass
         # print(self.searchName)
-        # print(self.suggested_search_name)
+        print(self.suggested_search_name)
         # print(self.first_name)
        
 
 
 wiki=WIKInfo("Elon Musk")
 # wiki.test()
+# wiki.wiki_summary()
 # wiki.wiki_summary()
 wiki.wiki_page_data()

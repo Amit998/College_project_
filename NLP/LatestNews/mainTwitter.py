@@ -1,4 +1,4 @@
-from logging import addLevelName
+
 import keys
 import sys
 import tweepy
@@ -97,5 +97,5 @@ TW.search_user("MarcusMergulhao")
 # TW.get_followers()
 # TW.add_description("Hi")
 # TW.search_tweet(topic="FC Goa")
-TW.top_trending()
+# TW.top_trending()
 #FEATURES TO BE ADDED

@@ -22,7 +22,7 @@ class WolfFramInfo():
         # print(self.client.query())
         # print(wolfram.simple("Population of America", "america_population"))
 
-qustion="Who is The PM of india"
+qustion="who is the indian cricket team captain"
 wf=WolfFramInfo()
 wf.ask_qustion(qustion)
 # wf.test()
