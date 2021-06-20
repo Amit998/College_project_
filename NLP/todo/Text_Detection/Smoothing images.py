@@ -23,25 +23,25 @@ bilateral=cv2.bilateralFilter(img,5,75,75)
 # cv2.imshow("avg",averaging)
 # cv2.imshow("gaussian",gaussian)
 
-cv2.imshow('median',median)
-cv2.imshow('bilateral',bilateral)
+# cv2.imshow('median',median)
+# cv2.imshow('bilateral',bilateral)
 
-cv2.waitKey(0)
-cv2.destroyAllWindows()
+# cv2.waitKey(0)
+# cv2.destroyAllWindows()
 
 
 
 #SHARPE IMAGE
 
-# image_data=cv2.imread('image/balloons_noisy.png')
-# image_data=cv2.resize(image_data,(400,400))
-# sharpening_filter=np.array([[-1,-1,-1],
-#                             [-1,9,-1],
-#                             [-1,-1,-1]])      
+image_data=cv2.imread('image/balloons_noisy.png')
+image_data=cv2.resize(image_data,(400,400))
+sharpening_filter=np.array([[-1,-1,-1],
+                            [-1,9,-1],
+                            [-1,-1,-1]])      
 
-# sharpened_image=cv2.filter2D(image_data,-1,sharpening_filter)
+sharpened_image=cv2.filter2D(image_data,-1,sharpening_filter)
 
 
-# cv2.imshow('image show',sharpened_image)
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
+cv2.imshow('image show',sharpened_image)
+cv2.waitKey(0)
+cv2.destroyAllWindows()
