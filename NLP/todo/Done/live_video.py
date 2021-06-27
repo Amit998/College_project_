@@ -1,3 +1,4 @@
+from enum import Flag
 import cv2
 import numpy as np
 import pytesseract
@@ -11,17 +12,36 @@ myclassifier=cvzone.Classifier('model/keras_model.h5','model/labels.txt')
 fpsReader=cvzone.FPS()
 
 class live_text:
-    min_value=2
-    temp_st={
+    flag=0
+    min_value=3
+    stopper=10
+    readable_data_store={0:""}
+    id_data_store={0:""}
+    poster_data_store={0:""}
+    length_store={}
 
-    }
+    predicted_text=None
+
 
     color = (20, 20, 20)
+
+    for i in range(stopper):
+        length_store[i]=0
+        
+
+    predictions_dictonary_occurance={
+        "Readable":0,
+        "RoadSign":0,
+        "Id":0,
+        "Posters":0,
+        "NoImage":0,
+    }
+
     predictions_dictonary={
         0:"Readable",
         1 :"RoadSign",
         2 :"Id",
-        3 :"BookCover"
+        3 :"Posters"
     }
 
     def __init__(self):
@@ -29,7 +49,7 @@ class live_text:
 
     def validate_image(self,img):
         laplacian_var = cv2.Laplacian(img, cv2.CV_64F).var()
-        print(laplacian_var)
+        # print(laplacian_var)
         if laplacian_var < 5:
             return False
         else:
@@ -57,29 +77,28 @@ class live_text:
         self.dst=cv2.warpPerspective(self.image,op,(800,800))
 
         return self.dst
+    async def clear_text(self,text1):
+        text2=text1.replace(','," ")
+        text3=text2.replace('\n'," ")
+        text4=text3.replace('\\'," ")
+        text5=text4.replace('  '," ")
+      
+
+        return text5
 
     async def detect_text(self,image):
         # if self.image_process_flag == 0 :self.image_preprocess()
 
         self.text=pytesseract.image_to_string(image)
-
-        self.text=self.text.replace(','," ")
-        self.text=self.text.replace('\n'," ")
-        self.text=self.text.replace('\\'," ")
-        self.text=self.text.replace('  '," ")
+        self.text=await self.clear_text(self.text) 
         self.text_detection_flag=1
-        # self.text=self.text.split(" ")
 
-        if (self.text == None):
-            print('empty')
-            return
+      
+
+        if (len(self.text.split(" ")) < 3):
+            print('Please Check again')
+            return "No Text"
         else:
-            length=len(self.text.split(" "))
-            text=self.text
-            if ( length not in self.temp_st.keys and length > self.min_value):
-                self.temp_str[length]=self.text
-                self.min_value=length
-
             return self.text
         
 
@@ -103,9 +122,28 @@ class live_text:
                 self.target=approx
                 break
         approx=self.mapper(self.target)
-        
 
         return approx
+    
+    async def get_readable_text(self,text,length,img,isId=False,isPoster=False):
+    
+        if (isId==False and length > self.min_value and self.validate_image(img) and length not in self.readable_data_store):
+            self.readable_data_store[length]=text
+            self.min_value=length
+        elif (isId==True and length > self.min_value and self.validate_image(img) and length not in self.id_data_store):
+            self.id_data_store[length]=text
+            self.min_value=length
+        elif (isPoster==True and length > self.min_value and self.validate_image(img) and length not in self.poster_data_store):
+            self.poster_data_store[length]=text
+            self.min_value=length
+    
+        # print('exit')
+        return
+            
+
+        
+    def get_id_text(self):
+        pass
     
     async def live_image(self):
         vid = cv2.VideoCapture(0)
@@ -116,29 +154,105 @@ class live_text:
             start_point = (int(approx[0][0]), int(approx[0][1]))
             end_point = (int(approx[2][0]), int(approx[2][1]))
             img=cv2.rectangle(img,start_point,end_point,self.color,3)
-
             dst=await self.get_prespectiveImage(approx)
-
             text=await self.detect_text(dst)
-            #print(text)
+            id_text=await self.detect_text(img)
+
 
             _,__,prediction2=self.classify(dst)
             _,__,prediction1=self.classify(img)
-            print(prediction2,prediction1)
 
-            cv2.imshow("dst",dst)
-            cv2.imshow("Frame",img)
+            length=len(text.split(" "))
+            id_text_length=len(id_text.split(" "))
+
+            print(self.flag,"this is flag")
+
+            self.flag+=1
+
+            if (prediction2 =="Readable" and length >5):
+                self.predictions_dictonary_occurance["Readable"]+=1
+                # print("Readable")
+                await  self.get_readable_text(text,length,dst) 
+                
+            elif (prediction2=="Id" and length > 2 or (prediction1=="Id" and id_text_length > 3 )):
+                self.predictions_dictonary_occurance["Id"]+=1
+                if (prediction1==prediction2):
+                    await  self.get_readable_text(text,length,dst,True) 
+                else:
+                    await  self.get_readable_text(id_text,length,dst,True) 
+                # print("identification card",prediction1,prediction2)
+
+            elif (prediction2 == "Posters" and length > 5 or (prediction1 == "Posters" and id_text_length > 3) ):
+                await  self.get_readable_text(id_text,length,dst,isPoster=True)
+                self.predictions_dictonary_occurance["Posters"]+=1
+                # print('Posters')
+            elif (prediction2 == "RoadSign"):
+                self.predictions_dictonary_occurance["RoadSign"]+=1
+                # print("Road Sign detetcted")
+
+            else:
+                # print(self.predictions_dictonary_occurance["NoImage"])
+                self.predictions_dictonary_occurance["NoImage"]+=1
+                
+
+                # print("no readable file")
+                # print(text)
+
+
+            if (self.flag == self.stopper):
+                cv2.destroyAllWindows()
+                break
+            
+            img2=cv2.resize(img,(400,400))
+            cv2.imshow("Frame",img2)
             
             if cv2.waitKey(1) & 0xFF == ord('q'):
+                cv2.destroyAllWindows()
                 break
+        
+        
+        max_key = max(self.predictions_dictonary_occurance, key=self.predictions_dictonary_occurance.get)
 
-        img.release()
-        cv2.destroyAllWindows()
+        print(self.predictions_dictonary_occurance)
+        # print(max_key)
+
+        if(max_key =="Readable"):
+            temp_store=max(self.readable_data_store.keys())
+            self.predicted_text=self.readable_data_store[temp_store]
+           
+        elif(max_key =="RoadSign"):
+            self.predicted_text="Road Sign Detected"
+        elif(max_key =="Id"):
+            temp_store=max(self.id_data_store.keys())
+            self.predicted_text=self.id_data_store[temp_store]
 
 
-    def test(self):
+
+            
+        elif(max_key =="Posters"):
+            temp_store=max(self.poster_data_store.keys())
+            self.predicted_text=self.poster_data_store[temp_store]
+
+        elif(max_key =="NoImage"):
+
+            self.predicted_text="No Readable Image Found"
+
+
+
+        print(self.predicted_text)
+
+        print('under this is predicted')
+
+        print(await self.clear_text(self.predicted_text))
+
+    
+        
+        
+
+
+    def run(self):
         asyncio.run(self.live_image())
        
     
 lt=live_text()
-lt.test()
+lt.run()

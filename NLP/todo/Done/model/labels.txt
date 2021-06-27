@@ -1,4 +1,4 @@
-0 Readable
-1 RoadSign
-2 Id
-3 BookCover
+Readable
+RoadSign
+Id
+Posters/BookCover
