@@ -1,4 +1,3 @@
-from enum import Flag
 import cv2
 import numpy as np
 import pytesseract
@@ -25,8 +24,8 @@ class live_text:
 
     color = (20, 20, 20)
 
-    for i in range(stopper):
-        length_store[i]=0
+    # for i in range(stopper):
+    #     length_store[i]=0
         
 
     predictions_dictonary_occurance={
@@ -225,10 +224,7 @@ class live_text:
         elif(max_key =="Id"):
             temp_store=max(self.id_data_store.keys())
             self.predicted_text=self.id_data_store[temp_store]
-
-
-
-            
+   
         elif(max_key =="Posters"):
             temp_store=max(self.poster_data_store.keys())
             self.predicted_text=self.poster_data_store[temp_store]
@@ -240,18 +236,11 @@ class live_text:
 
 
         print(self.predicted_text)
-
-        # print('under this is predicted')
-
-        # print(await self.clear_text(self.predicted_text))
-
-    
-        
-        
-
+        return
 
     def run(self):
         asyncio.run(self.live_image())
+        return
        
     
 lt=live_text()
